@@ -1,8 +1,3 @@
-// Global counter.
-let itemsCounter = document.getElementById('itemsContainer').childElementCount;
-let folderCounter = document.getElementById('folderContainer').childElementCount;
-
-
 // Add item to list.
 let addModalItemAdd = document.getElementById('addItemModalButton');
 addModalItemAdd.addEventListener('click', function() {
@@ -118,6 +113,9 @@ deleteModalItemDelete.addEventListener('click', function() {
     
         // Delete item.
         parentElement.removeChild(item);
+
+        // Refresh empty message.
+        thereIsItems();
     });
 });
 
@@ -367,6 +365,9 @@ deleteModalFolderDelete.addEventListener('click', function() {
     .then(function () {
         // Delete item.
         folderContainer.removeChild(folder);
+
+        // Refresh empty message.
+        thereIsItems();
     });
 });
 
@@ -602,6 +603,9 @@ function drawFolders(folders) {
             folderContainer.append(folderCreated);    
         });
     }
+
+    // Refresh empty message.
+    thereIsItems();
 }
 
 
@@ -659,7 +663,11 @@ function drawItems(items) {
             checkboxs[i].addEventListener("click", editCheck);
         }
     }
+
+    // Refresh empty message.
+    thereIsItems();
 }
+
 
 function editCheck(event) {
     let folderId = '';
@@ -686,4 +694,14 @@ function editCheck(event) {
         method: 'POST',
         body: data,
     })
+}
+
+
+function thereIsItems() {
+    let noItems = document.getElementById('noItems');
+    if (folderContainer.childElementCount == 0 && itemsContainer.childElementCount == 0) {
+        noItems.style.display = 'block';
+    } else {
+        noItems.style.display = 'none';
+    }
 }

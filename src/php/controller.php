@@ -30,8 +30,16 @@
         case 'getAllFolders':
             getAllFolders();
             break;
-
+            
         case 'addFolder':
             addFolder($_POST);
+            break;
+
+        case 'editFolder':
+            editFolder($_POST);
+            break;
+
+        case 'deleteFolder':
+            deleteFolder($_POST);
             break;
     }

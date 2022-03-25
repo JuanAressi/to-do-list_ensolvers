@@ -10,6 +10,11 @@ addModalItemAdd.addEventListener('click', function() {
     let input = document.getElementById('addModalItemInput');
 
     if (input.value !== '') {
+        // Check if has invalid class and remove it.
+        if (input.classList.contains('is-invalid')) {
+            input.classList.remove('is-invalid');
+        }
+        
         // Create and populate data object.
         let data = new FormData();
         data.append('action', 'addItem');
@@ -24,38 +29,20 @@ addModalItemAdd.addEventListener('click', function() {
         })
         .then(response => response.json())
         .then(function (data) {
-            // Get the list to append the item.
-            let itemsContainer = document.getElementById('itemsContainer');
-        
-            // Create the item element.
-            let item = document.createElement('div');
-            item.id = 'element-' + data.id;
-            item.className = 'd-flex justify-content-between align-items-center mb-2 item';
-            item.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
-                        <i class="fa-solid fa-check folder-icon"></i>
-                    </div>
-                    
-                    <input type="checkbox" name="${'element-' + data.id}">
-                    <p class="elementValue mb-0 ms-3">${input.value}</p>
-                </div>
-    
-    
-                <div class="d-flex me-5">
-                    <i class="fas fa-edit text-primary edit" data-number="${'element-' + data.id}"></i>
-                    <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="${'element-' + data.id}"></i>
-                </div>
-            `;
-        
-            // Append item.
-            itemsContainer.append(item);
+            let items = [data];
+
+            // Draw all items.
+            drawItems(items);
+
+            // Hide modal.
+            jQuery('#addModalItem').modal('hide');
     
             // Empty the input.
             input.value = '';
         });
     } else {
-        // Field can not be empty.
+        // Input can not be null.
+        input.classList.add('is-invalid');
     }
 });
 
@@ -69,7 +56,7 @@ itemsContainer.addEventListener('click', function(event) {
 });
 
 
-// Save edit item modal.
+// Confirm edit item modal.
 let editModalItemSave = document.getElementById('editModalItemSave');
 editModalItemSave.addEventListener('click', function() {
     // Get data-number attribute.
@@ -89,7 +76,6 @@ editModalItemSave.addEventListener('click', function() {
         method: 'POST',
         body: data,
     })
-    .then(response => response.json())
     .then(function () {
         // Get the item and his value.
         let item = document.getElementById(itemId);
@@ -177,15 +163,19 @@ addFolderButton.addEventListener('click', function() {
 });
 
 
-// Save add folder modal.
+// Confirm add folder modal.
 let addFolderModalButton = document.getElementById('addFolderModalButton');
 addFolderModalButton.addEventListener('click', function() {
     // Get the input.
     let input = document.getElementById('addModalFolderInput');
 
     if (input.value !== '') {
+        // Check if has invalid class and remove it.
+        if (input.classList.contains('is-invalid')) {
+            input.classList.remove('is-invalid');
+        }
+
         // Create and populate data object.
-        debugger
         let data = new FormData();
         data.append('action', 'addFolder');
         data.append('folder_name', input.value);
@@ -197,32 +187,10 @@ addFolderModalButton.addEventListener('click', function() {
         })
         .then(response => response.json())
         .then(function (data) {
-            // Get the list to append the item.
-            let folderContainer = document.getElementById('folderContainer');
-        
-            // Create the item element.
-            let element = document.createElement('div');
-            element.className = 'folder-' + data.id + ' mt-4';
+            let folders = [data];
 
-            element.innerHTML = `
-                <div id="${'folder-' + data.id}" class="d-flex justify-content-between align-items-center mb-2 folder">
-                    <div class="d-flex align-items-center">
-                        <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
-                            <i class="fa-solid fa-folder-open folder-icon"></i>
-                        </div>
-                        
-                        <p class="elementValue mb-0 ms-3">${input.value}</p>
-                    </div>
-
-                    <div class="d-flex me-5">
-                        <i class="fa-solid fa-plus text-success add" data-number="${'folder-' + data.id}"></i>
-                        <i class="fas fa-edit text-primary ms-3 edit" data-number="${'folder-' + data.id}"></i>
-                        <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="${'folder-' + data.id}"></i>
-                    </div>
-                </div>
-            `;
-
-            folderContainer.append(element);
+            // Draw all folders.
+            drawFolders(folders);
 
             // Get modal and modal body.
             let modal = document.getElementById('addModalFolder');
@@ -230,13 +198,14 @@ addFolderModalButton.addEventListener('click', function() {
             jQuery('#addModalFolder').modal('hide');
 
             // Move items.
-            moveItems(element, modalBody);
+            moveItems(folder, modalBody, 'folder-' + data.id);
             
             // Empty the input.
             input.value = '';
         });
     } else {
         // Input can not be null.
+        input.classList.add('is-invalid');
     }
 });
 
@@ -311,7 +280,7 @@ folderContainer.addEventListener('click', function(event) {
 });
 
 
-// Save edit folder modal.
+// Confirm edit folder modal.
 let editFolderModalButton = document.getElementById('editFolderModalButton');
 editFolderModalButton.addEventListener('click', function() {
     // Get data-number attribute.
@@ -320,20 +289,33 @@ editFolderModalButton.addEventListener('click', function() {
     // Get modal input.
     let inputModal = document.getElementById('editModalFolderInput');
 
-    // Get the folder and his value.
-    let folder = document.getElementById(folderId);
-    let folderValue = folder.querySelector('.elementValue');
-    folderValue.innerHTML = inputModal.value;
+    // Create and populate data object.
+    let data = new FormData();
+    data.append('action', 'editFolder');
+    data.append('folder_id', folderId);
+    data.append('folder_name', inputModal.value);
 
-    // Get modal, modal header and body.
-    let modal = document.getElementById('editModalFolder');
-    let modalBody = modal.querySelector('.modal-body .check-items .ms-3');
+    // Make fetch to controller.
+    fetch('../php/controller.php?', {
+        method: 'POST',
+        body: data,
+    })
+    .then(function () {
+        // Get the folder and his value.
+        let folder = document.getElementById(folderId);
+        let folderValue = folder.querySelector('.elementValue');
+        folderValue.innerHTML = inputModal.value;
 
-    // Check there is items
-    if (modalBody.childElementCount > 0) {
-        // Remove items checked.
-        moveItems(itemsContainer, modalBody);
-    }
+        // Get modal, modal header and body.
+        let modal = document.getElementById('editModalFolder');
+        let modalBody = modal.querySelector('.modal-body .check-items .ms-3');
+    
+        // Check there is items.
+        if (modalBody.childElementCount > 0) {
+            // Remove items checked.
+            moveItems(itemsContainer, modalBody);
+        }
+    });
 });
 
 
@@ -363,17 +345,29 @@ folderContainer.addEventListener('click', function(event) {
 });
 
 
-// Confirm delete modal.
+// Confirm delete folder modal.
 let deleteModalFolderDelete = document.getElementById('deleteModalFolderDelete');
 deleteModalFolderDelete.addEventListener('click', function() {
     // Get the ID of the root element.
-    let itemId = deleteModalFolderDelete.getAttribute('data-number');
+    let folderId = deleteModalFolderDelete.getAttribute('data-number');
 
-    // Get the item.
-    let item = document.querySelector('.' + itemId);
+    // Get the folder.
+    let folder = document.querySelector('.' + folderId);
 
-    // Delete item.
-    folderContainer.removeChild(item);
+    // Create and populate data object.
+    let data = new FormData();
+    data.append('action', 'deleteFolder');
+    data.append('folder_id', folderId);
+
+    // Make fetch to controller.
+    fetch('../php/controller.php?', {
+        method: 'POST',
+        body: data,
+    })
+    .then(function () {
+        // Delete item.
+        folderContainer.removeChild(folder);
+    });
 });
 
 
@@ -456,7 +450,7 @@ buttonAddItemFolder.addEventListener('click', function() {
     let modalBody = modal.querySelector('.modal-body .ms-3');
 
     // Move items.
-    moveItems(folder, modalBody);
+    moveItems(folder, modalBody, folderId);
 });
 
 
@@ -496,7 +490,7 @@ function deleteItem(target) {
 }
 
 
-function moveItems(folder, modalBody) {
+function moveItems(folder, modalBody, folderId = '') {
     for (let i = 0; i < modalBody.childElementCount; i++) {
         // Get checkbox.
         let checkbox = modalBody.children[i].querySelector('input');
@@ -507,16 +501,29 @@ function moveItems(folder, modalBody) {
             let itemId = modalBody.children[i].querySelector('input').getAttribute('name');
             let item = document.getElementById(itemId);
 
-            if (folder === itemsContainer) {
-                // Add class to item.
-                item.classList.remove('ms-5');
-            } else {
-                // Add class to item.
-                item.classList.add('ms-5');
-            }
+            // Create and populate data object.
+            let data = new FormData();
+            data.append('action', 'editItem');
+            data.append('item_id', itemId);
+            data.append('folder_id', folderId);
 
-            // Move.
-            folder.append(item);
+            // Make fetch to controller.
+            fetch('../php/controller.php?', {
+                method: 'POST',
+                body: data,
+            })
+            .then(function () {         
+                if (folder === itemsContainer) {
+                    // Remove class to item.
+                    item.classList.remove('ms-5');
+                } else {
+                    // Add class to item.
+                    item.classList.add('ms-5');
+                }   
+
+                // Move.
+                folder.append(item);
+            });
         }
     }
 }
@@ -555,87 +562,128 @@ function getData() {
         })
         .then(response => response.json())
         .then(function (data) {
-            drawItems(data.items);
+            drawItems(data.items);            
         });
-    });
+    })
+    .catch(log => console.log('log: ', log));
 }
 
 
 function drawFolders(folders) {
-    folders.forEach(folder => {
-        // Create the item element.
-        let folderCreated = document.createElement('div');
-        folderCreated.className = 'folder-' + folder.id + ' mt-4';
+    if (folders !== null) {
+        folders.forEach(folder => {
+            // Create the item element.
+            let folderCreated = document.createElement('div');
+            folderCreated.className = 'folder-' + folder.id + ' mt-4';
 
-        folderCreated.innerHTML = `
-            <div id="${'folder-' + folder.id}" class="d-flex justify-content-between align-items-center mb-2 folder">
-                <div class="d-flex align-items-center">
-                    <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
-                        <i class="fa-solid fa-folder-open folder-icon"></i>
+            folderCreated.innerHTML = `
+                <div id="${'folder-' + folder.id}" class="d-flex justify-content-between align-items-center mb-2 folder">
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
+                            <i class="fa-solid fa-folder-open folder-icon"></i>
+                        </div>
+                        
+                        <p class="elementValue mb-0 ms-3">${folder.name}</p>
                     </div>
-                    
-                    <p class="elementValue mb-0 ms-3">${folder.name}</p>
+
+                    <div class="d-flex me-5">
+                        <i class="fa-solid fa-plus text-success add" data-number="${'folder-' + folder.id}"></i>
+                        <i class="fas fa-edit text-primary ms-3 edit" data-number="${'folder-' + folder.id}"></i>
+                        <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="${'folder-' + folder.id}"></i>
+                    </div>
                 </div>
-
-                <div class="d-flex me-5">
-                    <i class="fa-solid fa-plus text-success add" data-number="${'folder-' + folder.id}"></i>
-                    <i class="fas fa-edit text-primary ms-3 edit" data-number="${'folder-' + folder.id}"></i>
-                    <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="${'folder-' + folder.id}"></i>
-                </div>
-            </div>
-        `;
+            `;
 
 
-        // Get the list to append the item.
-        let folderContainer = document.getElementById('folderContainer');
+            // Get the list to append the item.
+            let folderContainer = document.getElementById('folderContainer');
 
-        // Append folder.
-        folderContainer.append(folderCreated);    
-    });
+            // Append folder.
+            folderContainer.append(folderCreated);    
+        });
+    }
 }
 
 
 function drawItems(items) {
-    items.forEach(item => {
-        // Create the item element.
-        let itemCreated = document.createElement('div');
-        
-        // Set id and class.
-        itemCreated.id = 'element-' + item.id;
-        itemCreated.className = 'd-flex justify-content-between align-items-center mb-2 item';
+    if (items !== null) {
+        items.forEach(item => {
+            // Create the item element.
+            let itemCreated = document.createElement('div');
+            
+            // Set id and class.
+            itemCreated.id = 'element-' + item.id;
+            itemCreated.className = 'd-flex justify-content-between align-items-center mb-2 item';
 
-        // Set if is checked.
-        let checked = '';
-        if (item.checked === '1') {
-            checked = 'checked';
-        }
+            // Set if is checked.
+            let checked = '';
+            if (item.checked === '1') {
+                checked = 'checked';
+            }
 
-        // Finish building the html.
-        itemCreated.innerHTML = `
-            <div class="d-flex align-items-center">
-                <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
-                    <i class="fa-solid fa-check folder-icon"></i>
+            // Finish building the html.
+            itemCreated.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
+                        <i class="fa-solid fa-check folder-icon"></i>
+                    </div>
+                    
+                    <input type="checkbox" name="${'element-' + item.id}" ${checked}>
+                    <p class="elementValue mb-0 ms-3">${item.name}</p>
                 </div>
-                
-                <input type="checkbox" name="${'element-' + item.id}" ${checked}>
-                <p class="elementValue mb-0 ms-3">${item.name}</p>
-            </div>
 
 
-            <div class="d-flex me-5">
-                <i class="fas fa-edit text-primary edit" data-number="${'element-' + item.id}"></i>
-                <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="${'element-' + item.id}"></i>
-            </div>
-        `;
+                <div class="d-flex me-5">
+                    <i class="fas fa-edit text-primary edit" data-number="${'element-' + item.id}"></i>
+                    <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="${'element-' + item.id}"></i>
+                </div>
+            `;
 
-        // Check folder.
-        let father = document.getElementById('itemsContainer');
-        if (item.folder_id !== null) {
-            father = document.querySelector('.folder-' + item.folder_id);
-            itemCreated.classList.add('ms-5');
+            // Check folder.
+            let father = document.getElementById('itemsContainer');
+            if (item.folder_id !== null) {
+                father = document.querySelector('.folder-' + item.folder_id);
+                itemCreated.classList.add('ms-5');
+            }
+
+            // Append item.
+            father.append(itemCreated);
+        });
+
+
+        // Event listener for checkboxes.
+        let mainContainer = document.getElementById('main-container');
+        let checkboxs = mainContainer.querySelectorAll("input[type='checkbox']");
+
+        for (let i = 0; i < checkboxs.length; i++) {
+            checkboxs[i].addEventListener("click", editCheck);
         }
+    }
+}
 
-        // Append item.
-        father.append(itemCreated);
-    });
+function editCheck(event) {
+    let folderId = '';
+    let itemId = event.target.name;
+    let checked = event.target.checked;
+
+    // Get parent id.
+    if (event.target.parentElement.parentElement.parentElement.id != "itemsContainer") {
+        folderId = event.target.parentElement.parentElement.parentElement.className;
+        if (folderId.includes('mt-4')) {
+            folderId = folderId.slice(0, -5);
+        }
+    }
+
+    // Create and populate data object.
+    let data = new FormData();
+    data.append('action', 'editItem');
+    data.append('folder_id', folderId);
+    data.append('item_id', itemId);
+    data.append('checked', checked);
+
+    // Make fetch to controller.
+    fetch('../php/controller.php?', {
+        method: 'POST',
+        body: data,
+    })
 }

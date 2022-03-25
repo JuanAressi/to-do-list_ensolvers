@@ -14,6 +14,9 @@
     <!-- Bootstrap Js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
+    <!-- jQuery CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -35,8 +38,8 @@
 
         <!-- Folder Container -->
         <div id="folderContainer" class="mt-4">
-            <div class="folder-0">
-                <div id="folder-0" class="d-flex justify-content-between align-items-center mb-2 folder">
+            <!-- <div class="folder-0"> -->
+                <!-- <div id="folder-0" class="d-flex justify-content-between align-items-center mb-2 folder">
                     <div class="d-flex align-items-center">
                         <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
                             <i class="fa-solid fa-folder-open folder-icon"></i>
@@ -50,9 +53,9 @@
                         <i class="fas fa-edit text-primary ms-3 edit" data-number="folder-0"></i>
                         <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="folder-0"></i>
                     </div>
-                </div>
+                </div> -->
 
-                <div id="element-0" class="d-flex justify-content-between align-items-center mb-2 item ms-5">
+                <!-- <div id="element-0" class="d-flex justify-content-between align-items-center mb-2 item ms-5">
                     <div class="d-flex align-items-center">
                         <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
                             <i class="fa-solid fa-check folder-icon"></i>
@@ -66,10 +69,10 @@
                         <i class="fas fa-edit text-primary edit" data-number="element-0"></i>
                         <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="element-0"></i>
                     </div>
-                </div>
-            </div>
+                </div> -->
+            <!-- </div> -->
 
-            <div class="folder-1 mt-4">
+            <!-- <div class="folder-1 mt-4">
                 <div id="folder-1" class="d-flex justify-content-between align-items-center mb-2 folder">
                     <div class="d-flex align-items-center">
                         <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
@@ -85,11 +88,11 @@
                         <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="folder-1"></i>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         
         <div id="itemsContainer" class="mt-4">
-            <div id="element-1" class="d-flex justify-content-between align-items-center mb-2 item">
+            <!-- <div id="element-1" class="d-flex justify-content-between align-items-center mb-2 item">
                 <div class="d-flex align-items-center">
                     <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
                         <i class="fa-solid fa-check folder-icon"></i>
@@ -135,7 +138,7 @@
                     <i class="fas fa-edit text-primary edit" data-number="element-4"></i>
                     <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="element-4"></i>
                 </div>
-            </div>
+            </div> -->
         </div>
     </main>
   
@@ -165,7 +168,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="addFolderModalButton" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                    <button type="button" id="addFolderModalButton" class="btn btn-primary">Add</button>
                 </div>
             </div>
         </div>

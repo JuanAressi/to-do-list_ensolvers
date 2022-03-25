@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- My Own Styles -->
+    <link rel="stylesheet" href="./style.css">
+
+    <!-- Bootstrap Css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- Bootstrap Js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>To Do List</title>
+</head>
+<body class="bg-light text-dark">
+    <main class="container p-5">
+        <!-- Title -->
+        <h1 class="text-center mb-5">To Do List</h1>
+        
+        <div class="d-flex justify-content-center">
+            <!-- Add folder -->
+            <button id="addFolderButton" class="btn btn-outline-secondary me-5" type="button" data-bs-toggle="modal" data-bs-target="#addModalFolder">Add Folder</button>
+            
+            <!-- Add item -->
+            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#addModalItem">Add Item</button>
+        </div>
+
+
+        <!-- Folder Container -->
+        <div id="folderContainer" class="mt-4">
+            <div class="folder-0">
+                <div id="folder-0" class="d-flex justify-content-between align-items-center mb-2 folder">
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
+                            <i class="fa-solid fa-folder-open folder-icon"></i>
+                        </div>
+                        
+                        <p class="elementValue mb-0 ms-3">Folder 0</p>
+                    </div>
+
+                    <div class="d-flex me-5">
+                        <i class="fa-solid fa-plus text-success add" data-number="folder-0"></i>
+                        <i class="fas fa-edit text-primary ms-3 edit" data-number="folder-0"></i>
+                        <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="folder-0"></i>
+                    </div>
+                </div>
+
+                <div id="element-0" class="d-flex justify-content-between align-items-center mb-2 item ms-5">
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
+                            <i class="fa-solid fa-check folder-icon"></i>
+                        </div>
+                        
+                        <input type="checkbox">
+                        <p class="elementValue mb-0 ms-3">This is the item nº 0</p>
+                    </div>
+    
+                    <div class="d-flex me-5">
+                        <i class="fas fa-edit text-primary edit" data-number="element-0"></i>
+                        <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="element-0"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="folder-1 mt-4">
+                <div id="folder-1" class="d-flex justify-content-between align-items-center mb-2 folder">
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
+                            <i class="fa-solid fa-folder-open folder-icon"></i>
+                        </div>
+                        
+                        <p class="elementValue mb-0 ms-3">Folder 1</p>
+                    </div>
+
+                    <div class="d-flex me-5">
+                        <i class="fa-solid fa-plus text-success add" data-number="folder-1"></i>
+                        <i class="fas fa-edit text-primary ms-3 edit" data-number="folder-1"></i>
+                        <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="folder-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="itemsContainer" class="mt-4">
+            <div id="element-1" class="d-flex justify-content-between align-items-center mb-2 item">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
+                        <i class="fa-solid fa-check folder-icon"></i>
+                    </div>
+                    
+                    <input type="checkbox" name="element-1">
+                    <p class="elementValue mb-0 ms-3">This is the item nº 1</p>
+                </div>
+
+                <div class="d-flex me-5">
+                    <i class="fas fa-edit text-primary edit" data-number="element-1"></i>
+                    <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="element-1"></i>
+                </div>
+            </div>
+
+            <div id="element-2" class="d-flex justify-content-between align-items-center mb-2 item">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
+                        <i class="fa-solid fa-check folder-icon"></i>
+                    </div>
+                    
+                    <input type="checkbox" name="element-1">
+                    <p class="elementValue mb-0 ms-3">This is the item nº 2</p>
+                </div>
+
+                <div class="d-flex me-5">
+                    <i class="fas fa-edit text-primary edit" data-number="element-2"></i>
+                    <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="element-2"></i>
+                </div>
+            </div>
+
+            <div id="element-4" class="d-flex justify-content-between align-items-center mb-2 item">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex justify-content-center align-items-center align-items-center me-4 icon">
+                        <i class="fa-solid fa-check folder-icon"></i>
+                    </div>
+                    
+                    <input type="checkbox" name="element-4">
+                    <p class="elementValue mb-0 ms-3">This is the item nº 4</p>
+                </div>
+
+                <div class="d-flex me-5">
+                    <i class="fas fa-edit text-primary edit" data-number="element-4"></i>
+                    <i class="fa-solid fa-circle-minus text-danger ms-3 delete" data-number="element-4"></i>
+                </div>
+            </div>
+        </div>
+    </main>
+  
+
+    <!-- Modal: Add folder -->
+    <div class="modal fade" id="addModalFolder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addModalFolder" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add folder</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <h5>Folder name</h5>
+
+                    <div class="input-group mt-2">
+                        <div class="d-flex justify-content-center input-group-text">
+                            <i class="fa-solid fa-folder-open text-secondary"></i>
+                        </div>
+                        
+                        <input type="text" id="addModalFolderInput" class="form-control">
+                    </div>
+
+                    <div class="check-items mt-3"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="addFolderModalButton" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal: Edit folder -->
+    <div class="modal fade" id="editModalFolder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalFolder" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit folder</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <h5>Folder name</h5>
+
+                    <div class="input-group mt-2">
+                        <div class="d-flex justify-content-center input-group-text">
+                            <i class="fa-solid fa-folder-open text-secondary"></i>
+                        </div>
+                        
+                        <input type="text" id="editModalFolderInput" class="form-control">
+                    </div>
+
+                    <div class="check-items mt-4"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="editFolderModalButton" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal: Delete folder -->
+    <div class="modal fade" id="deleteModalFolder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalFolder" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete folder</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <i class="fa-solid fa-triangle-exclamation fa-4x text-danger"></i>
+    
+                        <h5 class="mt-3">Are you sure you want to delete folder?</h5>
+                        <p class="mb-0">This also will remove the items</p>
+                        <p class="small">You won't be able to recover it</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="deleteModalFolderDelete" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal: Add item to folder -->
+    <div class="modal fade" id="modalAddItemFolder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalAddItemFolder" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body"></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="buttonAddItemFolder" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Modal: Add item -->
+    <div class="modal fade" id="addModalItem" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addModalItem" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <h5>Item description</h5>
+
+                    <div class="input-group mt-2">
+                        <div class="d-flex justify-content-center input-group-text">
+                            <i class="fa-solid fa-check text-secondary"></i>
+                        </div>
+                        
+                        <input type="text" id="addModalItemInput" class="form-control">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="addItemModalButton" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+
+    <!-- Modal: Edit item -->
+    <div class="modal fade" id="editModalItem" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalItem" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <h5>Item description</h5>
+
+                    <div class="input-group mt-2">
+                        <div class="d-flex justify-content-center input-group-text">
+                            <i class="fa-solid fa-check text-secondary"></i>
+                        </div>
+                        
+                        <input type="text" id="editModalItemInput" class="form-control">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="editModalItemSave" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal: Delete item -->
+    <div class="modal fade" id="deleteModalItem" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalItem" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <i class="fa-solid fa-triangle-exclamation fa-4x text-danger"></i>
+    
+                        <h5 class="mt-3">Are you sure you want to delete this item?</h5>
+                        <p class="small">You won't be able to recover it</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="deleteModalItemDelete" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal: Errors -->
+    <div class="modal fade" id="errorModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="errorModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <i class="fa-solid fa-triangle-exclamation fa-4x text-danger"></i>
+    
+                        <h5 class="mt-3">Are you sure you want to delete this item?</h5>
+                        <p class="small">You won't be able to recover it</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="./js/App.js"></script>
+</body>
+</html>

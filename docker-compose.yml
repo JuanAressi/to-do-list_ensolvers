@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  web:
+    container_name: todolist_web
+    build:
+      context: $PWD/docker/web/.
+
+    volumes:
+      - $PWD/src:/var/www/html
+      - $PWD/docker/web/apache/virtualhost.conf:/etc/apache2/sites-enabled/000-default.conf
+      - $PWD/docker/web/php/php.ini:/usr/local/etc/php/php.ini
+      
+    ports:
+      - "80:80"
+
+  db:
+    container_name: todolist_db
+    image: mysql
+    
+    command: --default-authentication-plugin=mysql_native_password
+
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: db_todolist
+
+    ports:
+      - "3306:3306"
+    
+  phpmyadmin:
+    container_name: todolist_phpmyadmin
+    image: phpmyadmin/phpmyadmin
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "4g"
+
+    links:
+      - db
+
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=db
+      - PMA_USER=root
+      - PMA_PASSWORD=123456
+      - MYSQL_ROOT_PASSWORD=123456
+
+    ports:
+      - 8080:80

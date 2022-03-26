@@ -9,7 +9,7 @@ El proyecto está desarrollado en:
   * MySQL en phpMyAdmin.
   * Docker
 
-Para iniciar el proyecto hay que correr en la ruta del protecto:
+Para iniciar el proyecto hay que correr en un bash en la ruta del protecto:
   * docker-compose build
   * docker-compose up
 
